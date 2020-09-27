@@ -1,0 +1,29 @@
+# mysql 配置信息
+spring:
+    datasource:
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/test
+        username: root
+        password: root
+        # 数据源类别
+        type: com.alibaba.druid.pool.DruidDataSource
+
+    thymeleaf:
+        mode: HTML
+        encoding: UTF-8
+        servlet:
+            content-type: text/html
+        cache: false
+        prefix: classpath:/templates/
+    mail:
+        host: smtp.163.com
+        username: chenyying20181007@163.com
+        password: ay12345
+        default-encoding: UTF-8
+
+logging:
+#    config: classpath:log4j2.xml
+mybatis:
+    mapper-locations: classpath:/mappers/*Mapper.xml
+    type-aliases-package: com.chen.demo.model
+
