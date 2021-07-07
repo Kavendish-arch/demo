@@ -1,101 +1,99 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-        <title>20183022 冯欣悦 </title>
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>地信 18-3 冯欣悦 20183022 </title>
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.19/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.19/"></script>
+</head>
+<body>
+    <div id="viewDiv"></div>
+</body>
+<script>
+    require(
+        [
+            "esri/config",
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/layers/FeatureLayer",
+            "esri/widgets/Legend",
+        ],
+        function (esriConfig, Map, MapView, FeatureLayer, Legend) {
 
-        <style>
-            html,
-            body,
-            #viewDiv {
-                padding: 0;
-                margin: 0;
-                height: 100%;
-                width: 100%;
+            // esriConfig.apiKey = "topo-vector";
+
+            // 创建基图
+            const map = new Map({
+                basemap: "topo-vector" // Basemap layer service
+            });
+            // 生成视图
+            const view = new MapView({
+                map: map,
+                center: [-118.805, 34.027], // Longitude, latitude
+                zoom: 13, // Zoom level
+                container: "viewDiv" // Div element
+            });
+
+            // 在基图上标记地点图标
+            const trailheadsLayer = new FeatureLayer({
+                url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads_Styled/FeatureServer/0"
+            });
+            map.add(trailheadsLayer);
+
+            // 点的模板
+            var popupParksLayer = {
+                "title": "{TRL_NAME}",
+                "content": "<b>City: </b>{CITY_JUR} <br />" +
+                    "<b>Cross Street: </b> {X_STREET} <br/>" +
+                    "<b>Parking: </b>{PARKING} <br />" +
+                    "<b>Elevation: </b>{ELEV_FT} FT <br /> ",
             }
-        </style>
-        <link rel="stylesheet" href="https://js.arcgis.com/4.19/esri/themes/light/main.css">
-        <script src="https://js.arcgis.com/4.19/"></script>
+            // 点
+            const parksLayer = new FeatureLayer({
+                url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads_Styled/FeatureServer/0",
+                outFields: ["TRL_NAME ", "CITY_JUR", 'X_STREET', 'PARKING', 'ELEV_FT'],
+                popupTemplate: popupParksLayer,
+            });
+            map.add(parksLayer);
 
-    </head>
-    <body>
-        <div id="viewDiv"></div>
-    </body>
-    <script>
-        require(
-            [
-                "esri/config",
-                "esri/Map",
-                "esri/views/MapView",
-                "esri/layers/FeatureLayer",
-                "esri/widgets/Legend",
-            ],
-            function(esriConfig, Map, MapView, FeatureLayer, Legend) {
-
-                // esriConfig.apiKey = "topo-vector";
-
-                // 创建基图
-                const map = new Map({
-                    basemap: "topo-vector" // Basemap layer service
-                });
-                // 生成视图
-                const view = new MapView({
-                    map: map,
-                    center: [-118.805, 34.027], // Longitude, latitude
-                    zoom: 13, // Zoom level
-                    container: "viewDiv" // Div element
-                });
-
-                // 在基图上标记地点图标
-                const trailheadsLayer = new FeatureLayer({
-                    url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads_Styled/FeatureServer/0"
-                });
-                map.add(trailheadsLayer);
-
-                // 点的模板
-                var popupParksLayer = {
-                    "title": "{TRL_NAME}",
-                    "content": "<b>City: </b>{CITY_JUR} <br />" +
-                        "<b>Cross Street: </b> {X_STREET} <br/>" +
-                        "<b>Parking: </b>{PARKING} <br />" +
-                        "<b>Elevation: </b>{ELEV_FT} FT <br /> ",
-                }
-                // 点
-                const parksLayer = new FeatureLayer({
-                    url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads_Styled/FeatureServer/0",
-                    outFields: ["TRL_NAME ", "CITY_JUR", 'X_STREET', 'PARKING', 'ELEV_FT'],
-                    popupTemplate: popupParksLayer,
-                });
-                map.add(parksLayer);
-
-                // 描绘路线
-                const trailsLayer = new FeatureLayer({
-                    url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails_Styled/FeatureServer/0"
-                });
-                map.add(trailsLayer, 0);
-                // 路线一 基础
-                var popupTrails1 = {
-                    "title": "线1 Trail Information",
-                    "content": function() {
-                        return "This is {TRL_NAME} with {ELEV_GAIN} ft of climbing.";
-                    },
-
-                }
-                // Parks and open spaces (polygons)
-                const trails1 = new FeatureLayer({
-                    url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails_Styled/FeatureServer/0",
-                    outFields: ["TRL_NAME ", 'ELEV_GAIN'],
-                    popupTemplate: popupTrails1,
-                });
-                map.add(trails1, 0);
+            // 描绘路线
+            const trailsLayer = new FeatureLayer({
+                url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails_Styled/FeatureServer/0"
+            });
+            map.add(trailsLayer, 0);
+            // 路线一 基础
+            var popupTrails1 = {
+                "title": "线1 Trail Information",
+                "content": function () {
+                    return "This is {TRL_NAME} with {ELEV_GAIN} ft of climbing.";
+                },
+            }
+            // Parks and open spaces (polygons)
+            const trails1 = new FeatureLayer({
+                url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails_Styled/FeatureServer/0",
+                outFields: ["TRL_NAME ", 'ELEV_GAIN'],
+                popupTemplate: popupTrails1,
+            });
+            map.add(trails1, 0);
 
 
-                // 挑战功能 路线上 绘图气泡
-                var popupTrails2 = {
-                    "title": "线路2: Trail Information",
-                    "content": [{
+            // 挑战功能 路线上 绘图气泡
+            var popupTrails2 = {
+                "title": "线路2: Trail Information",
+                "content": [
+                    {
                         'type': 'media',
                         "mediaInfos": [{
                             "type": 'column-chart',
@@ -106,93 +104,104 @@
                                 "tooltipField": "min and max elevation values",
                             }
                         }]
-                    }]
-                }
-                //
-                const trails2 = new FeatureLayer({
-                    url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails_Styled/FeatureServer/0",
-                    outFields: ["ELEV_MIN", 'ELEV_MAX'],
-                    popupTemplate: popupTrails2,
-                });
-                map.add(trails2, 0);
-
-                // 挑战功能 公式计算
-                var popupTrails3 = {
-                    "title": "线路3: Trail Information",
-                    expressionInfors: [{
-                        name: "elevation-ratio",
-                        title: "Elevation change",
-                        expression: "Round(( (%feature.ELEV_MAX - $feature.ELEV_MIN) / ($feature.LENGTH_MI) / 5280) * 100, 2)",
-
-                    }],
-                    "content": "The {TRL_NAME} trail average slope per mile is : {expression/elevation-ratio}% onver a total"
-
-                }
-                // 
-                const trails3 = new FeatureLayer({
-                    url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails_Styled/FeatureServer/0",
-                    outFields: ["ELEV_MAX", 'ELEV_MIN', 'LENGTH_MI', 'TRL_NAME'],
-                    popupTemplate: popupTrails3,
-                });
-                map.add(trails3, 0);
-
-
-                // 在区域上标记 气泡 面
-                var popupOpenspaces = {
-                    'title': "面 {PARK_NAME}",
-                    "content": [{
-                        "type": "fields",
-                        "fieldInfos": [{
-                                "fieldName": "AGNCY_NAME",
-                                "label": "AGNCY_NAME",
-                                "isEditable": true,
-                                'tooltip': "提示",
-                                "visible": true,
-                                "format": null,
-                                "stringFieldOption": 'text-box'
-                            },
-                            {
-                                "fieldName": "TYPE",
-                                "label": "TYPE",
-                                "isEditable": true,
-                                'tooltip': "",
-                                "visible": true,
-                                "format": null,
-                                "stringFieldOption": 'text-box'
-                            },
-
-                            {
-                                "fieldName": "ACCESS_TYP",
-                                "label": "ACCESS_TYP",
-                                "isEditable": true,
-                                'tooltip': "",
-                                "visible": true,
-                                "format": null,
-                                "stringFieldOption": 'text-box'
-                            },
-                            {
-                                "fieldName": "GIS_ACRES",
-                                "label": "GIS_ACRES",
-                                "isEditable": true,
-                                'tooltip': "",
-                                "visible": true,
-                                "format": {
-                                    "places": 2,
-                                    "digitSeparator": false,
-                                },
-                                "stringFieldOption": 'text-box'
+                    },
+                    {
+                        'type': 'media',
+                        "mediaInfos": [{
+                            'type': 'image',
+                            'title': '主图',
+                            'caption': '这是一棵树',
+                            'refreshInterval': 2,
+                            'value': {
+                                'linkURL': 'https://www.baidu.com',
+                                'sourceURL': 'https://mms0.baidu.com/it/u=1338189635,2574416545&fm=15&gp=0.jpg&fmt=auto'
                             }
-                        ]
-                    }]
-                }
-                const openspaces = new FeatureLayer({
-                    url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/Parks_and_Open_Space_Styled/FeatureServer/0",
-                    outFields: ["TYPE", 'AGNCY_NAME', 'ACCESS_TYP', 'GIS_ACRES'],
-                    popupTemplate: popupOpenspaces,
-                });
-                map.add(openspaces, 0);
-
-
+                        }]
+                    }
+                ]
+            }
+            //
+            const trails2 = new FeatureLayer({
+                url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails_Styled/FeatureServer/0",
+                outFields: ["ELEV_MIN", 'ELEV_MAX'],
+                popupTemplate: popupTrails2,
             });
-    </script>
+            map.add(trails2, 0);
+
+            // 挑战功能 公式计算
+            var popupTrails3 = {
+                "title": "线路3: Trail Information",
+                expressionInfors: [{
+                    name: "elevation-ratio",
+                    title: "Elevation change",
+                    expression: "Round(( (%feature.ELEV_MAX - $feature.ELEV_MIN) / ($feature.LENGTH_MI) / 5280) * 100, 2)",
+
+                }],
+                "content": "The {TRL_NAME} trail average slope per mile is : {expression/elevation-ratio}% onver a total"
+            }
+            // 
+            const trails3 = new FeatureLayer({
+                url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails_Styled/FeatureServer/0",
+                outFields: ["ELEV_MAX", 'ELEV_MIN', 'LENGTH_MI', 'TRL_NAME'],
+                popupTemplate: popupTrails3,
+            });
+            map.add(trails3, 0);
+
+
+            // 在区域上标记 气泡 面
+            var popupOpenspaces = {
+                'title': "面 {PARK_NAME}",
+                "content": [{
+                    "type": "fields",
+                    "fieldInfos": [{
+                        "fieldName": "AGNCY_NAME",
+                        "label": "AGNCY_NAME",
+                        "isEditable": true,
+                        'tooltip': "提示",
+                        "visible": true,
+                        "format": null,
+                        "stringFieldOption": 'text-box'
+                    },
+                    {
+                        "fieldName": "TYPE",
+                        "label": "TYPE",
+                        "isEditable": true,
+                        'tooltip': "",
+                        "visible": true,
+                        "format": null,
+                        "stringFieldOption": 'text-box'
+                    },
+
+                    {
+                        "fieldName": "ACCESS_TYP",
+                        "label": "ACCESS_TYP",
+                        "isEditable": true,
+                        'tooltip': "",
+                        "visible": true,
+                        "format": null,
+                        "stringFieldOption": 'text-box'
+                    },
+                    {
+                        "fieldName": "GIS_ACRES",
+                        "label": "GIS_ACRES",
+                        "isEditable": true,
+                        'tooltip': "",
+                        "visible": true,
+                        "format": {
+                            "places": 2,
+                            "digitSeparator": false,
+                        },
+                        "stringFieldOption": 'text-box'
+                    }
+                    ]
+                }]
+            }
+            const openspaces = new FeatureLayer({
+                url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/Parks_and_Open_Space_Styled/FeatureServer/0",
+                outFields: ["TYPE", 'AGNCY_NAME', 'ACCESS_TYP', 'GIS_ACRES'],
+                popupTemplate: popupOpenspaces,
+            });
+            map.add(openspaces, 0);
+        });
+</script>
 </html>
