@@ -1,0 +1,17 @@
+﻿  Grid.cpp
+  Map.cpp
+D:\Program Files\SFML-3.0.0-windows-vc17-64-bit\SFML-3.0.0\include\SFML\System\Exception.hpp(41,47): warning C4275: 非 dll 接口 class“std::runtime_error”用作 dll 接口 class“sf::Exception”的基
+D:\Users\chenyingtao\Source\Repos\SaoLei\Project1\Map.cpp(56,56): warning C4244: “参数”: 从“int”转换到“T”，可能丢失数据
+D:\Users\chenyingtao\Source\Repos\SaoLei\Project1\Map.cpp(56,56): warning C4244:         with
+D:\Users\chenyingtao\Source\Repos\SaoLei\Project1\Map.cpp(56,56): warning C4244:         [
+D:\Users\chenyingtao\Source\Repos\SaoLei\Project1\Map.cpp(56,56): warning C4244:             T=float
+D:\Users\chenyingtao\Source\Repos\SaoLei\Project1\Map.cpp(56,56): warning C4244:         ]
+D:\Users\chenyingtao\Source\Repos\SaoLei\Project1\Map.cpp(56,41): warning C4244: “参数”: 从“int”转换到“T”，可能丢失数据
+D:\Users\chenyingtao\Source\Repos\SaoLei\Project1\Map.cpp(56,41): warning C4244:         with
+D:\Users\chenyingtao\Source\Repos\SaoLei\Project1\Map.cpp(56,41): warning C4244:         [
+D:\Users\chenyingtao\Source\Repos\SaoLei\Project1\Map.cpp(56,41): warning C4244:             T=float
+D:\Users\chenyingtao\Source\Repos\SaoLei\Project1\Map.cpp(56,41): warning C4244:         ]
+  main.cpp
+D:\Program Files\SFML-3.0.0-windows-vc17-64-bit\SFML-3.0.0\include\SFML\System\Exception.hpp(41,47): warning C4275: 非 dll 接口 class“std::runtime_error”用作 dll 接口 class“sf::Exception”的基
+  正在生成代码...
+  Project1.vcxproj -> D:\Users\chenyingtao\Source\Repos\SaoLei\Project1\x64\Debug\Project1.exe
