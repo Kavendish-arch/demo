@@ -76,12 +76,11 @@ def model_inference(input_wav, language, fs=16000):
                           batch_size_s=60, merge_vad=merge_vad)
 
     # Print and process the generated transcription result
-    print(text)
+    # print(text)
     text = text[0]["text"]
-    # text = format_str_v3(text)
 
     # Print the final processed transcription result
-    print(text)
+    # print(text)
 
     # Return the final transcription result
     return text

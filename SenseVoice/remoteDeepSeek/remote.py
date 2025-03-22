@@ -133,6 +133,8 @@ def remote_infer(question: [], history=None):
              },
             {"role": "user", "content": "请用简短的语言给出回答，分点讲述"},
             {"role": "assistant", "content": "我叫chatGLM"},
+            {"role": "user", "content": "这是一道题目：题目来源于语音转文字或者是图片中OCR识别，存在一些误差，你需要根据题目进行思考给出答案，"
+                                        "然后在选择中选择答案"},
             {"role": "user", "content": question}
         ],
     )
