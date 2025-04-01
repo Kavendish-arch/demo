@@ -59,8 +59,8 @@ def launch():
         # 定义按钮点击事件的回调函数，执行模型推理，并将结果输出到文本框中
         fn_Button_A2T.click(model_inference_audio, inputs=[audio_inputs, language_inputs], outputs=text_outputs)
         # OCR 功能开始按钮
-
         fn_Button_OCR.click(model_inference_image, inputs=[image_inputs], outputs=text_outputs)
+
         # 大模型回答问题功能
         fn_button_infer.click(Remote_AI_Infer, inputs=[text_outputs, language_inputs], outputs=text_answer_outputs)
 
